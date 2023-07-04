@@ -278,7 +278,6 @@ const updateUserTwo = async (req, res) => {
   }
 
   if (req.file) {
-    console.log(req.file);
     const { path: tempUpload, originalname } = req.file;
     const fileName = `${_id}_${originalname}`;
 
