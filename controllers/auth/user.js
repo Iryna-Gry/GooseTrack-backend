@@ -141,11 +141,8 @@ const login = async (req, res) => {
 //------------------refresh------------------------------------
 const refresh = async (req, res) => {
   const { refreshToken: rToken } = req.body;
-  console.log('rToken:', rToken);
-
   try {
     const { id } = jwt.verify(rToken, REFRESH_SECRET_KEY);
-    console.log('id:', id);
     const isExist = await User.findOne({ refreshToken: rToken });
     if (!isExist) {
       throw HttpError(403, 'token is not valid');
@@ -250,18 +247,10 @@ const updateUser = async (req, res) => {
       });
 
     await fs.unlink(tempUpload);
-    // console.log(fileName);
     const avatarURL = path.join('avatars', fileName);
-    console.log(avatarURL);
     updatedUser = { ...updatedUser, avatarURL };
     await User.findByIdAndUpdate(_id, { avatarURL: avatarURL });
   }
-  console.log('body');
-  console.log(req.body);
-  console.log('');
-
-  console.log('updatedUser');
-  console.log(updatedUser);
 
   await User.findByIdAndUpdate(_id, { ...updatedUser });
   if (req.body.password) {
@@ -276,7 +265,6 @@ const updateUser = async (req, res) => {
 };
 //================================NEW=UPDATE======================================================
 const updateUserTwo = async (req, res) => {
-  console.log('update');
   const { _id } = req.user;
   let updatedUser = {};
 
@@ -303,12 +291,6 @@ const updateUserTwo = async (req, res) => {
     updatedUser = { ...updatedUser, avatarURL, avatarID };
     await User.findByIdAndUpdate(_id, { avatarURL: avatarURL });
   }
-  console.log('body');
-  console.log(req.body);
-  console.log('');
-
-  console.log('updatedUser');
-  console.log(updatedUser);
 
   await User.findByIdAndUpdate(_id, { ...updatedUser });
   if (req.body.password) {
